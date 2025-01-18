@@ -25,6 +25,6 @@ jobs:
 
       - name: Deploy to server
         run: |
-          scp -r ./build ubuntu@ec2-43-200-118-236.ap-northeast-2.compute.amazonaws.com:/home/ubuntu/projects/nestjs
+          scp -r ./dist ubuntu@ec2-43-200-118-236.ap-northeast-2.compute.amazonaws.com:/home/ubuntu/projects/nestjs
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
