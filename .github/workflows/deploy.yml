@@ -21,7 +21,7 @@ jobs:
         run: npm install
 
       - name: Build project
-        run: npm build  # 빌드 명령어 (예: React 프로젝트에서는 `npm run build`)
+        run: npm run build  # 빌드 명령어 (예: React 프로젝트에서는 `npm run build`)
 
       - name: Deploy to server
         run: |
