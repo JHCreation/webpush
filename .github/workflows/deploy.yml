@@ -23,16 +23,21 @@ jobs:
       - name: Build project
         run: npm run build  # 빌드 명령어 (예: React 프로젝트에서는 `npm run build`)
 
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.5.3
+      - name: excuting remote ssh commands
+        uses: appleboy/ssh-action@v1.2.0 # ssh 접속하는 오픈소스
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}  # 비밀 키를 GitHub Secrets에서 가져옴
-
-      - name: Add EC2 host to known_hosts
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan -H ec2-43-200-118-236.ap-northeast-2.compute.amazonaws.com >> ~/.ssh/known_hosts
+          host: ${{ secrets.REMOTE_IP }} # 인스턴스 IP
+          username: ${{ secrets.REMOTE_USER }} # 우분투 아이디
+          key: ${{ secrets.SSH_PRIVATE_KEY }} # ec2 instance pem key
+          port: ${{ secrets.REMOTE_SSH_PORT }} # 접속포트
+          # script: | # 실행할 스크립트
+          #   cd /home/ubuntu/Server-V2
+          #   git pull origin dev
+          #   pm2 kill
+          #   npm i --force
+          #   npm run build
+          #   pm2 start dist/main.js
 
       - name: Deploy to EC2
         run: |
-          scp -r ./dist ubuntu@ec2-43-200-118-236.ap-northeast-2.compute.amazonaws.com:/home/ubuntu/projects/nestjs
+          scp -r ./dist ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_IP }}:/home/ubuntu/projects/nestjs
