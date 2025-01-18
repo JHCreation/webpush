@@ -23,6 +23,11 @@ jobs:
       - name: Build project
         run: npm run build  # 빌드 명령어 (예: React 프로젝트에서는 `npm run build`)
 
+      - name: Add EC2 host to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.REMOTE_IP }} >> ~/.ssh/known_hosts
+
       - name: excuting remote ssh commands
         uses: appleboy/ssh-action@v1.2.0 # ssh 접속하는 오픈소스
         with:
@@ -42,11 +47,6 @@ jobs:
       #   uses: webfactory/ssh-agent@v0.5.3
       #   with:
       #     ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}  # 비밀 키를 GitHub Secrets에서 가져옴
-
-      # - name: Add EC2 host to known_hosts
-      #   run: |
-      #     mkdir -p ~/.ssh
-      #     ssh-keyscan -H ${{ secrets.REMOTE_IP }} >> ~/.ssh/known_hosts
 
       - name: Deploy to EC2
         run: |
