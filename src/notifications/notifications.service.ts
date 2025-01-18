@@ -13,7 +13,7 @@ export class NotificationsService {
 
   async sendNotification(subscription, data: any, option:webPush.RequestOptions = undefined) {
     try {
-      // console.log(subscription)
+      console.log(subscription)
       await webPush.sendNotification(subscription, JSON.stringify(data), option);
     } catch (error) {
       console.error('Error sending notification:', error);
