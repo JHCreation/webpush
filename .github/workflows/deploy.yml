@@ -18,7 +18,7 @@ jobs:
           node-version: '22'
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --omit=dev
 
       - name: Build application
         run: npm run build
@@ -32,7 +32,7 @@ jobs:
           port: ${{ secrets.REMOTE_SSH_PORT }}
           source: "dist/,package.json"
           target: "~/projects/nestjs"
-          rm: true
+          # rm: true
 
       - name: excuting remote ssh commands
         uses: appleboy/ssh-action@master
@@ -42,27 +42,5 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.REMOTE_SSH_PORT }}
           script: |
-            cd ~/projects/nestjs
+            cd ~/projects/nestjs || exit 1
             npm i --omit=dev
-            
-          # script: | # 실행할 스크립트
-          #   cd /home/ubuntu/Server-V2
-          #   git pull origin dev
-          #   pm2 kill
-          #   npm i --force
-          #   npm run build
-          #   pm2 start dist/main.js
-
-      # - name: Set up SSH
-      #   uses: webfactory/ssh-agent@v0.5.3
-      #   with:
-      #     ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}  # 비밀 키를 GitHub Secrets에서 가져옴
-
-      # - name: Add EC2 host to known_hosts
-      #   run: |
-      #     mkdir -p ~/.ssh
-      #     ssh-keyscan -H ${{ secrets.REMOTE_IP }} >> ~/.ssh/known_hosts
-
-      # - name: Deploy to EC2
-      #   run: |
-      #     scp -r ./dist ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_IP }}:/home/ubuntu/projects/nestjs
