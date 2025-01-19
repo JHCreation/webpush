@@ -17,11 +17,11 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Install dependencies
-        run: npm install
+      # - name: Install dependencies
+      #   run: npm install
 
-      - name: Build project
-        run: npm run build  # 빌드 명령어 (예: React 프로젝트에서는 `npm run build`)
+      # - name: Build project
+      #   run: npm run build  # 빌드 명령어 (예: React 프로젝트에서는 `npm run build`)
 
       - name: excuting remote ssh commands
         uses: appleboy/ssh-action@v1.2.0 # ssh 접속하는 오픈소스
@@ -31,9 +31,11 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }} # ec2 instance pem key
           port: ${{ secrets.REMOTE_SSH_PORT }} # 접속포트
           script: |
-            mkdir -p /home/ubuntu/projects/nestjs
-            rm -rf /home/ubuntu/projects/nestjs/*
-            cp -r ./dist /home/ubuntu/projects/nestjs
+            echo test
+          # script: |
+          #   mkdir -p /home/ubuntu/projects/nestjs
+          #   rm -rf /home/ubuntu/projects/nestjs/*
+          #   cp -r ./dist /home/ubuntu/projects/nestjs
           # script: | # 실행할 스크립트
           #   cd /home/ubuntu/Server-V2
           #   git pull origin dev
