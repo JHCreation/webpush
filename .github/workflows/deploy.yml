@@ -31,7 +31,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }} # ec2 instance pem key
           port: ${{ secrets.REMOTE_SSH_PORT }} # 접속포트
           script: |
-            scp -r ./package.json ${{ secrets.REMOTE_USER }}@${{ secrets.REMOTE_IP }}:/home/ubuntu/projects/nestjs
+            ls -R
           # script: |
           #   mkdir -p /home/ubuntu/projects/nestjs
           #   rm -rf /home/ubuntu/projects/nestjs/*
