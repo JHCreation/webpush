@@ -42,7 +42,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.REMOTE_SSH_PORT }}
           script: |
-            cd /home/ubuntu/projects/nestjs
+            cd ~/projects/nestjs
             npm i --omit=dev
             
           # script: | # 실행할 스크립트
