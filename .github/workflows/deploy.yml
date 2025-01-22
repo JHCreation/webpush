@@ -50,3 +50,4 @@ jobs:
             rm -rf node_modules || exit 1
             npm cache clean --force
             npm i --omit=dev
+            pm2 reload nest-webpush || pm2 start dist/main.js --name nest-webpush

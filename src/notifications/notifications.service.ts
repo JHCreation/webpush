@@ -1,13 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import * as webPush from 'web-push';
-
+import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class NotificationsService {
-  constructor() {
+  
+  constructor(private configService: ConfigService) {
+    // console.log('env', this.configService.get<string>('NEST_WEB_PUSH_PUBLIC_KEY'))
     webPush.setVapidDetails(
-      'mailto:corenzohouse@naver.com',
-      'BAy-bvUHfeGPDUCa0SuegTU9cBS7jhfCMuPha9abmQ1RnWY0_EeWjyDtLbplpCOubAt5C5nhqs3aW-7LWJ9yVgE',
-      'SEuKwE7otNmlwLn_fdRVt-JHYo5OEiatTkdy3Y2ZDew'
+      this.configService.get<string>('NEST_WEB_PUSH_SUBJECT'),
+      this.configService.get<string>('NEST_WEB_PUSH_PUBLIC_KEY'),
+      this.configService.get<string>('NEST_WEB_PUSH_PRIVATE_KEY'),
     );
   }
 
